@@ -1,5 +1,4 @@
-
-// var characterTypes
+// var inputCriteria
 var numbers = ["1", "2", "3" , "4", "5", "6", "7", "8", "9", "0"];
 var special = ["!", "@", "#","$", "%", "^", "&", "*", "~", "?"];
 var lowercase = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -7,11 +6,17 @@ var uppercase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"
 
 // var Input Criteria
 var inputLength; // check
-var inputOptions = [];
 
-function getInputCriteria() {
+var inputNumbers;
+var inputSpecial;
+var inputLowercase;
+var inputUppercase;
+
+var inputCriteria = [];
+
+function generatePassword() {
   var inputLength = parseInt(
-    prompt("Please enter the desired number of characters in your password. (between 8 and 128")
+    prompt("Please enter the desired number of characters in your password. (between 8 and 128)")
   );
   console.log("inputLength = " + inputLength);
 
@@ -30,32 +35,44 @@ function getInputCriteria() {
     return;
   }
 
-  // assign true/false values to var characterTypes
-  var numbers = confirm("Do you want to include numbers in your password?");
-  var special = confirm("Do you want to include special characters in your password?")
-  var lowercase = confirm("Do you want to include lowercase letters in your password?")
-  var uppercase = confirm("Do you want to include uppercase letters in your password?")
+  // assign true/false values to var inputCriteria
+  var inputNumbers = confirm("Do you want to include numbers in your password?");
+  var inputSpecial = confirm("Do you want to include special characters in your password?")
+  var inputLowercase = confirm("Do you want to include lowercase letters in your password?")
+  var inputUppercase = confirm("Do you want to include uppercase letters in your password?")
 
   // make sure at least one type of character is selected
   if (
-    numbers === false &&
-    special === false &&
-    lowercase === false &&
-    uppercase === false
+    inputNumbers === false &&
+    inputSpecial === false &&
+    inputLowercase === false &&
+    inputUppercase === false
   ) {
     alert("Password must contain at least one character type.");
-    return;
+    return generatePassword;
   }
 
-  // store and log input options
-  inputOptions = {
-    numbers: numbers,
-    special: special,
-    lowercase: lowercase,
-    uppercase: uppercase,
-    inputLength: inputLength
-  };
-  console.log(inputOptions);
+  //If characters selected
+  if (inputNumbers) {
+    inputCriteria = inputCriteria.concat(numbers);
+  }
+  if (inputSpecial) {
+    inputCriteria = inputCriteria.concat(special);
+  }
+  if (inputLowercase) {
+    inputCriteria = inputCriteria.concat(lowercase);
+  }
+  if (inputUppercase) {
+    inputCriteria = inputCriteria.concat(uppercase);
+  }
+
+  // generate password with random array
+  var randomPassword = "";
+  for (i = 0; i < inputLength; i++) {
+    randomPassword = randomPassword + inputCriteria[Math.floor(Math.random() * inputCriteria.length)];
+  }
+
+  return randomPassword;
 }
 
 // Get references to the #generate element
@@ -65,7 +82,6 @@ var generateBtn = document.querySelector("#generate");
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-  
   passwordText.value = password;
 }
 
