@@ -52,7 +52,7 @@ function generatePassword() {
     return generatePassword;
   }
 
-  //If characters selected
+  //If characters selected (which)
   if (inputNumbers) {
     inputCriteria = inputCriteria.concat(numbers);
   }
